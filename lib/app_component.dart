@@ -30,8 +30,10 @@ final List<Hero> mockHeroes = [
           [class.selected]="hero == selectedHero"
           (click)="onSelect(hero)">
           <span class="badge">{{hero.id}}</span> {{hero.name}}
+          <span style="float: right; margin: 5px;" (click)="remove(hero, \$event)">X</span>
         </li>
       </ul>
+      <button (click)="addHero()">Add New</button>
       <div *ngIf="selectedHero != null">
         <h2>{{selectedHero.name}} details!</h2>
         <div><label>id: </label>{{selectedHero.id}}</div>
@@ -51,7 +53,7 @@ final List<Hero> mockHeroes = [
         margin: 0 0 2em 0;
         list-style-type: none;
         padding: 0;
-        width: 10em;
+        width: 12em;
       }
       .heroes li {
         cursor: pointer;
@@ -97,6 +99,18 @@ class AppComponent {
   Hero selectedHero;
 
   onSelect(Hero hero) {
+    selectedHero = hero;
+  }
+
+  remove(Hero hero, event) {
+    heroes.remove(hero);
+    selectedHero = null;
+    event.stopPropagation();
+  }
+
+  addHero() {
+    Hero hero = new Hero(heroes.length+100, "New Hero");
+    heroes.add(hero);
     selectedHero = hero;
   }
 }
